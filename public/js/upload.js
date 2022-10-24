@@ -30,7 +30,7 @@ btnUpload.addEventListener('click',event => {
     formData.append('apellido',apellido)
    // formData.append('imagen',imagen)
     formData.append('email',email)
-    formData.append('btelefono',telefono)
+    formData.append('telefono',telefono)
     formData.append('direccion',direccion) 
     console.log(name)
     uploadFile(formData); 
@@ -42,6 +42,7 @@ btnUpload.addEventListener('click',event => {
 
         fetch('/contactos/addcontacto',{
             method:'POST',
+            redirect: 'follow',
             body:formData
         })
             .then(response => response.json())
