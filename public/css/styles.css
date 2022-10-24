@@ -62,6 +62,12 @@ tbody{
 
 }
 
+.button_reset{
+    background:  rgb(14, 72, 123);
+    color: white;
+
+}
+
 .infop{
    color: rgb(45, 191, 32);
 }
