@@ -19,34 +19,46 @@ exports.index = function (req, res) {
 };
 
 exports.create = async (req, res) => {
-        const { nombre, apellido, email, file, telefono, direccion, _id } = req.body;
+        const { nombre, apellido, email, telefono, direccion, _id } = req.body;
+        console.log(req)
+        const file = req.files.imagen;  
+       console.log(req.body);
+        console.log(req.body._id);
 
-        //const file = req.files.file;
-
-    
-        console.log(req.body);
-        console.log(_id);
-
-        if (req.body._id) {
+        if (req.body._id) {   
                 console.log("ID: "+ req.body._id);
-                await Contacto.findByIdAndUpdate(_id, {
-                        nombre: nombre,
-                        apellido: apellido,
-                        imagen: file,
-                        email: email,
-                        telefono: telefono,
-                        direccion: direccion,    
-                }, { new: true });
-                res.redirect('/contactos');
+                const bucket = 's3-bucket-nclab09'
+                const result = await uploadToBucket(bucket, file);
+
+                Contacto.findById({_id:_id}).exec(function(err, contactos){
+                        if(err){
+                                console.log(err)
+                        }else{
+                                console.log("Hola actualizar")
+                                const imageName = contactos.imagen.split('/')
+                                console.log(imageName[3])
+                                let params = {  Bucket: 's3-bucket-nclab09', Key: imageName[3] };
+                                deleteObject(params);
+                                var updateContacto = new Contacto({
+                                        nombre:req.body.nombre,
+                                        apellido:req.body.apellido,
+                                        imagen:result.Location,
+                                        email:req.body.email,
+                                        telefono:req.body.telefono,
+                                        direccion:req.body.direccion,
+                                });
+                                console.log(updateContacto)
+                                Contacto.findByIdAndUpdate(_id, {
+                                        ...updateContacto
+                                }, { new: true });
+                                res.redirect('/contactos');
+                        }}); 
+                
         } else {
         //
-        console.log(req);
         const bucket = 's3-bucket-nclab09'
         const file = req.files.imagen
-        console.log("Hola")
         const result = await uploadToBucket(bucket, file);
-        console.log("Hola2")
-        //res.json(result)
         //
         saveNewData(req,result.Location,res)
 
@@ -55,8 +67,6 @@ exports.create = async (req, res) => {
 };
 
 const saveNewData = (req, url, res) => {
-
-        
         var newContacto = new Contacto({
                 nombre:req.body.nombre,
                 apellido:req.body.apellido,

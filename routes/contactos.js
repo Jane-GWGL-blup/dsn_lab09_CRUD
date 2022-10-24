@@ -14,9 +14,9 @@ router.post('/addcontacto', function(req, res) {
 });
 
 
-router.post('/cargar', verifyFile, function(req, res){
+/* router.post('/cargar', verifyFile, function(req, res){
     contactos.upload(req, res);
-})
+}) */
 
 
 router.delete('/deletecontacto/:id', function(req, res) {

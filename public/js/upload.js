@@ -1,9 +1,10 @@
 const btnUpload = document.querySelector('#submit1')
 const imageResult = document.querySelector('#imagen');
- 
+
 
 btnUpload.addEventListener('click',event => {
     event.preventDefault();
+    
     const file= document.querySelector('#file1').files[0]
     const name=document.querySelector('#nombre1').value
     const apellido=document.querySelector('#apellido1').value
@@ -11,6 +12,7 @@ btnUpload.addEventListener('click',event => {
     const email=document.querySelector('#email1').value
     const telefono=document.querySelector('#telefono1').value
     const direccion=document.querySelector('#direccion1').value
+    const id = document.querySelector('#_id').value
     /*
     const { url } = await fetch("/s3Url").then((res) => res.json());
     document.querySelector("#imagen").value = url.split("?")[0];
@@ -30,16 +32,37 @@ btnUpload.addEventListener('click',event => {
     formData.append('apellido',apellido)
    // formData.append('imagen',imagen)
     formData.append('email',email)
-    formData.append('btelefono',telefono)
+    formData.append('telefono',telefono)
     formData.append('direccion',direccion) 
     console.log(name)
+    if(id){
+        formData.append('_id',id)
+        uploadFile(formData); 
+        console.log(id)
+    }
     uploadFile(formData); 
+    
     
 
 })
 
  const uploadFile = (formData) => {
 
+    
+/*     if(id){
+        formData.append('_id',id)
+        console.log(id)
+        fetch('/contactos/addcontacto',{
+            method:'PUT',
+            body:formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                //imageResult.src = data.Location;
+            }) 
+
+    }else{ */
         fetch('/contactos/addcontacto',{
             method:'POST',
             body:formData
@@ -51,6 +74,8 @@ btnUpload.addEventListener('click',event => {
             })
     }; 
 
+    
+        
 
 const updateFile = (formData) => {
 

@@ -42,14 +42,17 @@ const deleteObject = (params) => {
     })
 }
 
-/* const deleteObject = (params) =>{
-    fs.deleteObject(params, function(err, data) {
-        if (err) console.log(err, err.stack);  // error
-        else     console.log();                 // deleted
-      });
+
+/* const updateObject = (params) => {
+storage.putObject(params, function(err,data) {
+    if(err) {
+     console.log(err,err.stack);
+    }
+    else {
+     console.log(data);
+    }
+   });
 } */
-
-
 
 
 module.exports = {

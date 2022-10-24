@@ -73,7 +73,7 @@
                                         <button class="btnAction">
                                         
                                             <i  id="/contactos/deletecontacto/<%= contacto._id %>" 
-                                                onclick="delete_row(this.id)" 
+                                                onclick="delete_row(this._id)" 
                                                 class="fa-solid fa-user-xmark"></i>
                                             
                                         </button>
@@ -175,17 +175,18 @@
     function fill_form(contacto) {
         
         dataContacto = JSON.parse(contacto);  
-        
+        console.log(dataContacto._id)
         document.getElementById("nombre1").value=dataContacto.nombre;
         document.getElementById("apellido1").value=dataContacto.apellido;
-        document.getElementById("file1").files[0]=dataContacto.imagen;
+        //document.getElementById("file1").files[0]=dataContacto.imagen;
+        //document.querySelector('#file1').files[0]=dataContacto.imagen;
         document.getElementById("email1").value=dataContacto.email;
         document.getElementById("telefono1").value=dataContacto.telefono;
         document.getElementById("direccion1").value=dataContacto.direccion;
         document.getElementById("_id").value=dataContacto._id;
     };
 
-    
+
     function delete_row(route) {
         console.log(route)
         fetch(route,  {
